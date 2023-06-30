@@ -103,6 +103,12 @@ write_lldpd_conf()
 	config_get lldp_syscapabilities 'config' 'lldp_syscapabilities'
 	config_get lldp_location 'config' 'lldp_location'
 
+	local lldp_platform
+	config_get lldp_platform 'config' 'lldp_platform' "$lldp_description"
+
+	local lldp_fast_start
+	config_get_bool ifaces 'config' 'lldp_fast_start' 0
+
 	local ifaces
 	config_get ifaces 'config' 'interface'
 
@@ -123,6 +129,7 @@ write_lldpd_conf()
 	[ -n "$lldp_hostname" ] && echo "configure system hostname" "\"$lldp_hostname\"" >> "$LLDPD_CONF"
 	[ -n "$lldp_platform" ] && echo "configure system platform" "\"$lldp_platform\"" >> "$LLDPD_CONF"
 	[ -n "$lldp_mgmt_ip" ] && echo "configure system ip management pattern" "\"$lldp_mgmt_ip\"" >> "$LLDPD_CONF"
+<<<<<<< HEAD
 	[ -n "$lldp_agenttype" ] && echo "configure lldp agent-type" "\"$lldp_agenttype\"" >> "$LLDPD_CONF"
 	[ -n "$lldp_portidsubtype" ] && echo "configure lldp portidsubtype" "\"$lldp_portidsubtype\"" >> "$LLDPD_CONF"
 	if [ $lldpmed_fast_start -gt 0 ]; then
@@ -134,6 +141,9 @@ write_lldpd_conf()
     fi
 	[ -n "$lldp_syscapabilities" ] && echo "configure system capabilities enabled" "\"$lldp_syscapabilities\"" >> "$LLDPD_CONF"
 	[ -n "$lldp_location" ] && echo "configure med location" "\"$lldp_location\"" >> "$LLDPD_CONF"
+=======
+	[ $lldp_fast_start -gt 0 ] echo "configure med fast-start" "enable" >> "$LLDPD_CONF"
+>>>>>>> 89fa427837 (lldpd: Implement more setting options)
 
 	# Since lldpd's sysconfdir is /tmp, we'll symlink /etc/lldpd.d to /tmp/$LLDPD_CONFS_DIR
 	[ -e $LLDPD_CONFS_DIR ] || ln -s /etc/lldpd.d $LLDPD_CONFS_DIR
@@ -145,6 +155,8 @@ start_service() {
 	local enable_fdp
 	local enable_sonmp
 	local enable_edp
+	local disable_lldp_med
+	local disable_advertising_software
 	local lldp_class
 	local lldpmed_no_inventory
 	local lldp_no_version
@@ -166,6 +178,8 @@ start_service() {
 	config_get_bool enable_fdp 'config' 'enable_fdp' 0
 	config_get_bool enable_sonmp 'config' 'enable_sonmp' 0
 	config_get_bool enable_edp 'config' 'enable_edp' 0
+	config_get_bool disable_lldp_med 'config' 'disable_lldp_med' 0
+	config_get_bool disable_advertising_software 'config' 'disable_advertising_software' 0
 	config_get lldp_class 'config' 'lldp_class'
 	config_get_bool lldpmed_no_inventory 'config' 'lldpmed_no_inventory' 0
 	config_get_bool lldp_no_version 'config' 'lldp_no_version' 0
@@ -253,6 +267,15 @@ start_service() {
 		fi
 	fi
 
+<<<<<<< HEAD
+=======
+	[ $enable_cdp -gt 0 ] && procd_append_param command "-$(printf 'c%.0s' $(seq 1 $enable_cdp))"
+	[ $enable_fdp -gt 0 ] && procd_append_param command "-$(printf 'f%.0s' $(seq 1 $enable_fdp))"
+	[ $enable_sonmp -gt 0 ] && procd_append_param command "-$(printf 's%.0s' $(seq 1 $enable_sonmp))"
+	[ $enable_edp -gt 0 ] && procd_append_param command "-$(printf 'e%.0s' $(seq 1 $enable_edp))"
+	[ $disable_lldp_med -gt 0 ] && procd_append_param command '-i'
+	[ $disable_advertising_software -gt 0 ] && procd_append_param command '-k'
+>>>>>>> 89fa427837 (lldpd: Implement more setting options)
 	[ $readonly_mode -gt 0 ] && procd_append_param command '-r'
 	[ $lldpmed_no_inventory -gt 0 ] && procd_append_param command '-i'
 	[ $lldp_no_version -gt 0 ] && procd_append_param command '-k'
