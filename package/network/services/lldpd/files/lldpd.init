@@ -17,9 +17,12 @@ LLDPD_RESTART_HASH=${LLDPD_RUN}/lldpd.restart_hash
 
 . "$IPKG_INSTROOT/lib/functions/network.sh"
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 . "$IPKG_INSTROOT/usr/share/libubox/jshn.sh"
 >>>>>>> c0a1bb6366 (lldpd: Add improvements from Tano Systems)
+=======
+>>>>>>> f8181c1bad (lldpd: Remove unnecessary items from Tano Systems)
 
 find_release_info()
 {
@@ -417,6 +420,7 @@ service_triggers() {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 lldpcli_running_config_read() {
 	json_init
@@ -435,6 +439,8 @@ lldpcli_running_config_get_value() {
 }
 
 >>>>>>> c0a1bb6366 (lldpd: Add improvements from Tano Systems)
+=======
+>>>>>>> f8181c1bad (lldpd: Remove unnecessary items from Tano Systems)
 reload_service() {
 	running || return 1
 
@@ -475,9 +481,13 @@ reload_service() {
 
 stop_service() {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	rm -rf ${LLDPD_RUN} $LLDPSOCKET
 =======
 	rm -rf ${LLDPD_RUN} 2>/dev/null
 >>>>>>> c0a1bb6366 (lldpd: Add improvements from Tano Systems)
+=======
+	rm -rf ${LLDPD_RUN} $LLDPSOCKET
+>>>>>>> f8181c1bad (lldpd: Remove unnecessary items from Tano Systems)
 }
 
