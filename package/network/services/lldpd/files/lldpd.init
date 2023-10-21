@@ -87,6 +87,7 @@ write_lldpd_conf()
 	local lldp_agetntype
 	local lldp_portidsubtype
 	local lldp_syscapabilities
+	local lldp_location
 
 	config_load 'lldpd'
 	config_get lldp_description 'config' 'lldp_description' "$(find_release_info)"
@@ -100,6 +101,7 @@ write_lldpd_conf()
 	config_get_bool lldpmed_fast_start 'config' 'lldpmed_fast_start' 0
 	config_get lldpmed_fast_start_tx_interval 'config' 'lldpmed_fast_start_tx_interval' 0
 	config_get lldp_syscapabilities 'config' 'lldp_syscapabilities'
+	config_get lldp_location 'config' 'lldp_location'
 
 	local ifaces
 	config_get ifaces 'config' 'interface'
@@ -131,6 +133,7 @@ write_lldpd_conf()
 		fi
     fi
 	[ -n "$lldp_syscapabilities" ] && echo "configure system capabilities enabled" "\"$lldp_syscapabilities\"" >> "$LLDPD_CONF"
+	[ -n "$lldp_location" ] && echo "configure med location" "\"$lldp_location\"" >> "$LLDPD_CONF"
 
 	# Since lldpd's sysconfdir is /tmp, we'll symlink /etc/lldpd.d to /tmp/$LLDPD_CONFS_DIR
 	[ -e $LLDPD_CONFS_DIR ] || ln -s /etc/lldpd.d $LLDPD_CONFS_DIR
