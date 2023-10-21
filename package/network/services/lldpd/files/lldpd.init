@@ -86,6 +86,11 @@ write_lldpd_conf()
 	local lldp_mgmt_ip
 	local lldp_agetntype
 	local lldp_portidsubtype
+<<<<<<< HEAD
+=======
+	local lldp_syscapabilities
+	local lldp_location
+>>>>>>> 434d4f0705 (lldpd: Add location parameter)
 
 	config_load 'lldpd'
 	config_get lldp_description 'config' 'lldp_description' "$(find_release_info)"
@@ -98,6 +103,11 @@ write_lldpd_conf()
 	config_get lldp_portidsubtype 'config' 'lldp_portidsubtype' 'macaddress'
 	config_get_bool lldpmed_fast_start 'config' 'lldpmed_fast_start' 0
 	config_get lldpmed_fast_start_tx_interval 'config' 'lldpmed_fast_start_tx_interval' 0
+<<<<<<< HEAD
+=======
+	config_get lldp_syscapabilities 'config' 'lldp_syscapabilities'
+	config_get lldp_location 'config' 'lldp_location'
+>>>>>>> 434d4f0705 (lldpd: Add location parameter)
 
 	local ifaces
 	config_get ifaces 'config' 'interface'
@@ -147,7 +157,12 @@ write_lldpd_conf()
 		    echo "configure med fast-start" "enable" >> "$LLDPD_CONF"
 		fi
     fi
+<<<<<<< HEAD
 >>>>>>> 89bc3d0fff (lldpd: Implementation of LLDP MED fast start and option to send less software information)
+=======
+	[ -n "$lldp_syscapabilities" ] && echo "configure system capabilities enabled" "\"$lldp_syscapabilities\"" >> "$LLDPD_CONF"
+	[ -n "$lldp_location" ] && echo "configure med location" "\"$lldp_location\"" >> "$LLDPD_CONF"
+>>>>>>> 434d4f0705 (lldpd: Add location parameter)
 
 	# Since lldpd's sysconfdir is /tmp, we'll symlink /etc/lldpd.d to /tmp/$LLDPD_CONFS_DIR
 	[ -e $LLDPD_CONFS_DIR ] || ln -s /etc/lldpd.d $LLDPD_CONFS_DIR
